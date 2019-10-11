@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="eng" dir="ltr">
   <head>
+    <style>
+    div {
+      max-width: 30%;
+    }
+    </style>
     <meta charset="utf-8">
     <title>Slime Farmer</title>
   </head>
   <body>
-    <p id="totalCount">$0</p>
-    <p id="Green Jellies">0 Green Jellies</p>
+    <div>
+    <p id="totalCount" style="border: 2px solid DodgerBlue;">$0</p>
+    <p id="Green Jellies" style="border: 2px solid LightSeaGreen;">0 Green Jellies</p>
+    </div>
     <button onclick="countTwo()">Sell Jellies</button>
+    <div>
     <button onclick="buyCountTick()" id="countUp">Uprade Jelly Refinery (Lvl: 1) Cost: 10 </button>
     <button onclick="buyClicker()" id="clickerUp">Buy a Green Slime (No: 1) Cost: 100 </button>
+    </div>
     <script src="main.js" charset="utf-8" type="text/javascript"></script>
   </body>

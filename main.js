@@ -34,7 +34,7 @@ function buyClicker() {
     saveData.count -= saveData.countClickerCost
     saveData.countClickerCost = Math.floor(saveData.countClickerCost * 1.95)
     saveData.countPerClick += 1
-    document.getElementById("totalCount").innerHTML = saveData.count + " Jellies"
+    document.getElementById("totalCount").innerHTML = "$"saveData.count
     document.getElementById("clickerUp").innerHTML = "Buy a Green Slime (No: " + saveData.countPerClick + ") Cost: " + saveData.countClickerCost
   }
 }
