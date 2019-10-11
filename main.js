@@ -1,56 +1,64 @@
 var saveData = {
-  count: 0,
-  jellies: 0,
-  countPerClick: 1,
-  countPerClickCost: 10,
-  countClicker: 1,
-  countClickerCost: 100
+  cash: 1,
+  greenJellies: 0,
+  blueJellies: 0,
+  refineryLvlCost: 10,
+  refineryRate: 1,
+  greenSlimeCost: 100,
+  greenSlimeCount: 1,
+  blueSlimeCost: 1000,
+  blueSlimeCount: 0,
+  looplength: 1000,
 }
 
-function countTwo() {
-  saveData.count += saveData.jellies * saveData.countClicker
-  saveData.jellies = 0
-  document.getElementById("Green Jellies").innerHTML = saveData.jellies + " Green Jellies"
-  document.getElementById("totalCount").innerHTML = "$" + saveData.count
+//TODO: Add Fn to change saveData.looplength in order to 'speed up' all productions
+
+function sellJellies() {
+  saveData.cash += (saveData.greenJellies * saveData.refineryRate) + (saveData.blueJellies * saveData.refineryRate)
+  saveData.greenJellies = 0
+  saveData.blueJellies = 0
+  document.getElementById("GreenJellies").innerHTML = saveData.greenJellies + " Green Jellies"
+  document.getElementById("BlueJellies").innerHTML = saveData.blueJellies + " Blue Jellies"
+  document.getElementById("totalCash").innerHTML = "$" + saveData.cash
 }
 
-function countOne() {
-  saveData.jellies += saveData.countPerClick
-  document.getElementById("Green Jellies").innerHTML = saveData.jellies + " Green Jellies"
+function jellyLoop() {
+  saveData.blueJellies += saveData.blueSlimeCount * 3
+  saveData.greenJellies += saveData.greenSlimeCount
+  document.getElementById("GreenJellies").innerHTML = saveData.greenJellies + " Green Jellies"
+  document.getElementById("BlueJellies").innerHTML = saveData.blueJellies + " Blue Jellies"
 }
 
-function buyCountTick() {
-  if (saveData.count >= saveData.countPerClickCost) {
-    saveData.count -= saveData.countPerClickCost
-    saveData.countClicker += 1
-    saveData.countPerClickCost = Math.floor(saveData.countPerClickCost * 1.75)
-    document.getElementById("totalCount").innerHTML = '$' + saveData.count
-    document.getElementById("countUp").innerHTML = "Upgrade Jelly Refinery (Lvl: " + saveData.countClicker + ") Cost: " + saveData.countPerClickCost
+function upgradeRefinery() {
+  if (saveData.cash >= saveData.refineryLvlCost) {
+    saveData.cash -= saveData.refineryLvlCost
+    saveData.refineryRate += 1
+    saveData.refineryLvlCost = Math.floor(1 + (saveData.refineryLvlCost * 1.5))
+    document.getElementById("totalCash").innerHTML = '$' + saveData.cash
+    document.getElementById("JellyRefinery").innerHTML = "Upgrade Jelly Refinery (Lvl: " + saveData.refineryRate + ") Cost: " + saveData.refineryLvlCost
   }
 }
 
-function buyClicker() {
-  if (saveData.count >= saveData.countClickerCost) {
-    saveData.count -= saveData.countClickerCost
-    saveData.countClickerCost = Math.floor(saveData.countClickerCost * 1.95)
-    saveData.countPerClick += 1
-    document.getElementById("totalCount").innerHTML = "$" + saveData.count
-    document.getElementById("clickerUp").innerHTML = "Buy a Green Slime (No: " + saveData.countPerClick + ") Cost: " + saveData.countClickerCost
+function buyGreenSlime() {
+  if (saveData.cash >= saveData.greenSlimeCost) {
+    saveData.cash -= saveData.greenSlimeCost
+    saveData.greenSlimeCost = Math.floor(Math.pow(saveData.greenSlimeCost, 1.175) + 1.75)
+    saveData.greenSlimeCount += 1
+    document.getElementById("totalCash").innerHTML = "$" + saveData.cash
+    document.getElementById("BuyGreenSlime").innerHTML = "Buy a Green Slime (No: " + saveData.greenSlimeCount + ") Cost: " + saveData.greenSlimeCost
+  }
+}
+
+function buyBlueSlime() {
+  if (saveData.cash >= saveData.blueSlimeCost) {
+    saveData.cash -= saveData.blueSlimeCost
+    saveData.blueSlimeCost = Math.floor(Math.pow(saveData.blueSlimeCost, 1.19) + 1.75)
+    saveData.blueSlimeCount += 1
+    document.getElementById("totalCash").innerHTML = "$" + saveData.cash
+    document.getElementById("BuyBlueSlime").innerHTML = "Buy a Blue Slime (No: " + saveData.blueSlimeCount + ") Cost: " + saveData.blueSlimeCost
   }
 }
 
 var mainLoop = window.setInterval(function() {
-  countOne()
-}, 1000)
-
-//Saves are commented out for a little while until I have a more complete 'thing'
-/*
-var saveThing = JSON.parse(localStorage.getItem("countSave"))
-if (saveThing !== null) {
-  //saveData = saveThing
-}
-
-var saveLoop = window.setInterval(function() {
-  localStorage.setItem('countSave', JSON.stringify(saveData))
-}, 15000)
-*/
+  jellyLoop()
+}, saveData.looplength)
